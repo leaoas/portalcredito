@@ -82,7 +82,7 @@
                 // Simular verificação se a aplicação está disponível
                 setTimeout(() => {
                     // Redirecionar para a Power App
-                    window.location.replace(CONFIG.POWER_APP_URL);
+                    window.location.href = CONFIG.POWER_APP_URL;
                 }, CONFIG.REDIRECT_DELAY);
 
                 // Timeout de segurança
@@ -110,4 +110,5 @@
 </body>
 
 </html>
+
 
