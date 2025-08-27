@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carregando Aplicação...</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        h2 {
+            margin: 0 0 10px 0;
+            font-size: 1.5rem;
+        }
+        p {
+            margin: 0;
+            opacity: 0.8;
+        }
+        .error {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="spinner"></div>
+        <h2>Bem-vindo!</h2>
+        <p>Redirecionado para o Portal de Crédito Habitação...</p>
+        <div class="error" id="errorMessage">
+            <strong>Erro:</strong> Não foi possível carregar a aplicação. Tente novamente mais tarde.
+        </div>
+    </div>
+
+    <script>
+        // Configuração centralizada - apenas altere aqui quando mudar a URL
+        const CONFIG = {
+            // URL da Power App (altere apenas esta linha quando necessário)
+            POWER_APP_URL: 'https://apps.powerapps.com/play/e/03469d5d-988b-ec03-8821-8a98d421e646/a/d08593a6-5371-494c-9111-af04cf4d7ae3?tenantId=0f172980-1261-4323-ab7a-c89b472843d7',
+            
+            // Delay para mostrar a tela de loading (opcional)
+            REDIRECT_DELAY: 1500,
+            
+            // Timeout em caso de erro
+            TIMEOUT: 5000
+        };
+
+        async function redirectToPowerApp() {
+            try {
+                // Simular verificação se a aplicação está disponível
+                setTimeout(() => {
+                    // Redirecionar para a Power App
+                    window.location.replace(CONFIG.POWER_APP_URL);
+                }, CONFIG.REDIRECT_DELAY);
+
+                // Timeout de segurança
+                setTimeout(() => {
+                    document.getElementById('errorMessage').style.display = 'block';
+                    document.querySelector('.spinner').style.display = 'none';
+                    document.querySelector('h2').textContent = 'Erro no Redirecionamento';
+                    document.querySelector('p').textContent = 'Clique aqui para tentar novamente';
+                    document.querySelector('.container').style.cursor = 'pointer';
+                    document.querySelector('.container').onclick = () => location.reload();
+                }, CONFIG.TIMEOUT);
+
+            } catch (error) {
+                console.error('Erro ao redirecionar:', error);
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        }
+
+        // Executar redirecionamento quando a página carregar
+        window.onload = redirectToPowerApp;
+
+        // Opcional: Redirecionar imediatamente (comentar a linha acima se usar esta)
+        // window.location.replace(CONFIG.POWER_APP_URL);
+    </script>
+</body>
+</html>
